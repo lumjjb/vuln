@@ -5,8 +5,10 @@ go 1.18
 require (
 	github.com/client9/misspell v0.3.4
 	github.com/google/go-cmdtest v0.4.1-0.20220921163831-55ab3332a786
-	github.com/google/go-cmp v0.5.8
-	golang.org/x/exp v0.0.0-20220722155223-a9213eeb770e
+	github.com/google/go-cmp v0.5.9
+	github.com/google/uuid v1.3.0
+	github.com/openvex/go-vex v0.2.0
+	golang.org/x/exp v0.0.0-20220823124025-807a23277127
 	golang.org/x/mod v0.7.0
 	golang.org/x/sync v0.1.0
 	golang.org/x/tools v0.4.1-0.20221217013628-b4dfc36097e2
@@ -17,5 +19,7 @@ require (
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
 	github.com/google/renameio v0.1.0 // indirect
+	github.com/sirupsen/logrus v1.9.0 // indirect
 	golang.org/x/sys v0.3.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
