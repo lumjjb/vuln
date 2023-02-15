@@ -17,11 +17,13 @@ import (
 	"golang.org/x/vuln/client"
 	"golang.org/x/vuln/exp/govulncheck"
 	gvc "golang.org/x/vuln/internal/govulncheck"
+	"golang.org/x/vuln/internal/vex"
 	"golang.org/x/vuln/vulncheck"
 )
 
 var (
 	jsonFlag    = flag.Bool("json", false, "output JSON")
+	vexFlag     = flag.Bool("vex", false, "experimental: output VEX (overrides json flag)")
 	verboseFlag = flag.Bool("v", false, "print a full call stack for each vulnerability")
 	testFlag    = flag.Bool("test", false, "analyze test files. Only valid for source code.")
 	tagsFlag    buildutil.TagsFlag
@@ -93,7 +95,7 @@ func doGovulncheck(patterns []string, sourceAnalysis bool) error {
 		return err
 	}
 
-	if !*jsonFlag {
+	if !*jsonFlag && !*vexFlag {
 		// Print intro message when in text or verbose mode
 		printIntro(ctx, dbClient, dbs, sourceAnalysis)
 	}
@@ -137,6 +139,16 @@ func doGovulncheck(patterns []string, sourceAnalysis bool) error {
 	}
 	if err != nil {
 		return err
+	}
+
+	if *vexFlag {
+		// Following golang.org/x/tools/go/analysis/singlechecker,
+		// return 0 exit code in -vex mode.
+		if err := vex.PrintVex(res, sourceAnalysis); err != nil {
+			return err
+		}
+
+		os.Exit(0)
 	}
 
 	if *jsonFlag {
